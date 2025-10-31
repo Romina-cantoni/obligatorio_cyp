@@ -14,12 +14,14 @@ Con la ayuda de la inteligencia artificial ordenamos correctamente las carpetas.
 obligatorio_cyp/  
 ├── controllers/  
 ├────── facultad_ctrl.py           
+├────── participante_ctrl.py           
 ├── db/  
 ├────── connection.py       
 ├── routes/  
 ├────── api.py          
 ├── .env                   
 ├── app.py                  
+├── main.py                  
 ├── README.md               
 └── requirements.txt       
   
@@ -46,3 +48,9 @@ PASOS POR SI FALTAN INSTALACIONES:
 3. source venv/bin/activate  
 4. pip install Flask mysql-connector-python python-dotenv  
 5. pip freeze > requirements.txt  
+
+
+Ultimas modificaciones 31/10/2025:  
+- creacion de consultas en SQL (falta transferir para python en el archivo reportres_Ctrl, ya hay un ejemplo de como hacerlo)  
+- Main y funcionalidad con consola sobre CRUD de usuarios, practicamente abm (ver si cambia en algo).  
+- Implementacion de un menu, creo que va a ser mas facil pasarlo a interfaz grafica si llegamos :).  

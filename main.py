@@ -1,7 +1,36 @@
 import sys
 import os
 
-# Asegura que Python pueda ver los módulos dentro del proyecto
+def mostrar_resultados(resultados):
+    if resultados is None:
+        print("No hay datos.")
+        return
+
+    if isinstance(resultados, list):
+        if len(resultados) == 0:
+            print("No hay resultados.")
+            return
+
+        if all(isinstance(item, dict) for item in resultados):
+            for i, item in enumerate(resultados, 1):
+                print(f"\n--- Resultado {i} ---")
+                for clave, valor in item.items():
+                    print(f"{clave}: {valor}")
+            return
+
+        print("\n".join(str(r) for r in resultados))
+        return
+
+    if isinstance(resultados, dict):
+        if not resultados:
+            print("No hay datos.")
+            return
+        for clave, valor in resultados.items():
+            print(f"{clave}: {valor}")
+        return
+
+    print(resultados)
+
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # -------------------------------------------------------------
@@ -68,8 +97,8 @@ def menu_reportes():
         "1": ("Salas más reservadas", reportes.salas_mas_reservadas),
         "2": ("Turnos más demandados", reportes.turnos_mas_demandados),
         "3": ("Promedio de participantes por sala", reportes.promedio_participantes_por_sala),
-        "4": ("Reservas por carrera y facultad", reportes.reservas_por_carrera_facultad),
-        "5": ("Porcentaje de ocupación por edificio", reportes.porcentaje_ocupacion_por_edificio)
+        #"4": ("Reservas por carrera y facultad", reportes.reservas_por_carrera_facultad),
+        #"5": ("Porcentaje de ocupación por edificio", reportes.porcentaje_ocupacion_por_edificio)
     }
     
     while True:
@@ -86,10 +115,6 @@ def menu_reportes():
             print(f"\n--- {nombre} ---")
             resultados = funcion()
             mostrar_resultados(resultados)
-            guardar = input("Exportar a CSV? (s/n): ").strip().lower()
-            if guardar == "s":
-                archivo = input("Nombre del archivo CSV: ").strip()
-                exportar_csv(resultados, archivo)
         else:
             print("Opción inválida.")
 

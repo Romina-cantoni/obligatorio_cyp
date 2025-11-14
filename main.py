@@ -97,8 +97,14 @@ def menu_reportes():
         "1": ("Salas más reservadas", reportes.salas_mas_reservadas),
         "2": ("Turnos más demandados", reportes.turnos_mas_demandados),
         "3": ("Promedio de participantes por sala", reportes.promedio_participantes_por_sala),
-        #"4": ("Reservas por carrera y facultad", reportes.reservas_por_carrera_facultad),
-        #"5": ("Porcentaje de ocupación por edificio", reportes.porcentaje_ocupacion_por_edificio)
+        "4": ("Reservas por carrera y facultad", reportes.reservas_por_carrera_facultad),
+        "5": ("Porcentaje de ocupación por edificio", reportes.porcentaje_ocupacion_por_edificio),
+        "6": ("Reservas y asistencias de profesores y alumnos (grado y posgrado)", reportes.reservas_y_asistencias_profes_y_alumnos),
+        "7": ("Sanciones para profesores y alumnos (grado y posgrado)", reportes.sanciones_profes_y_alumnos),
+        "8": ("Reservas utilizadas vs cancelada / no asistidas", reportes.reservas_utilizadas_vs_canceladas_na),
+        "9": ("top5 de profesores con mas reservas", reportes.profesores_con_mas_reservas)
+
+        
     }
     
     while True:

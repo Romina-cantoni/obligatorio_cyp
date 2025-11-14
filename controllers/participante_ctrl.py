@@ -7,8 +7,8 @@ def crear_participante(ci, nombre, apellido, email):
     conn = get_connection()
     try:
         with conn.cursor() as cur:
-            sql = "INSERT INTO participante (ci, nombre, apellido, email) VALUES (%s, %s, %s, %s)"
-            cur.execute(sql, (ci, nombre, apellido, email))
+            sqlP = "INSERT INTO participante (ci, nombre, apellido, email) VALUES (%s, %s, %s, %s)"
+            cur.execute(sqlP, (ci, nombre, apellido, email))
         conn.commit()  # ✅ guarda los cambios
         print(f"✅ Participante {nombre} {apellido} creado correctamente.")
     except Exception as e:
@@ -40,9 +40,9 @@ def modificar_participante(ci, nombre=None, apellido=None, email=None):
             print("⚠️ No se proporcionaron campos para actualizar.")
             return
         params.append(ci)
-        sql = "UPDATE participante SET " + ", ".join(updates) + " WHERE ci = %s"
+        sqlP = "UPDATE participante SET " + ", ".join(updates) + " WHERE ci = %s"
         with conn.cursor() as cur:
-            cur.execute(sql, params)
+            cur.execute(sqlP, params)
         conn.commit()  # ✅ guarda cambios
         print(f"✅ Participante {ci} actualizado correctamente.")
     except Exception as e:

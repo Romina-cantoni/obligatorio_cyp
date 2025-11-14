@@ -34,7 +34,7 @@ def mostrar_resultados(resultados):
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 # -------------------------------------------------------------
-#                 Importar CRUD de participantes
+#                 Importar CONTROLLERS
 # -------------------------------------------------------------
 from controllers.participante_ctrl import (
     crear_participante,
@@ -43,6 +43,12 @@ from controllers.participante_ctrl import (
     borrar_participante
 )
 
+from controllers.salas_ctrl import (
+    crear_sala,
+    obtener_sala,
+    modificar_sala,
+    borrar_sala
+)
 # ----------------------------------------------------------
 #                       Importar reportes
 # ----------------------------------------------------------
@@ -51,10 +57,11 @@ from controllers import reportes_ctrl as reportes
 # -------------------------------------------------------------
 #                       CREACION DE MENUS 
 # -------------------------------------------------------------
+# --------------------- ABM PARTICIPANTES ---------------------
 
 def menu_participantes():
     while True:
-        print("\n--- CRUD Participantes ---")
+        print("\n--- ABM Participantes ---")
         print("1. Crear participante")
         print("2. Obtener participante")
         print("3. Modificar participante")
@@ -65,6 +72,9 @@ def menu_participantes():
         
         if opcion == "1":
             ci = input("CI: ")
+            if obtener_participante(ci):
+                print("❌ Ya existe el participante con CI:", ci)
+                break
             nombre = input("Nombre: ")
             apellido = input("Apellido: ")
             email = input("Email: ")
@@ -79,6 +89,9 @@ def menu_participantes():
                 print("No encontrado")
         elif opcion == "3":
             ci = input("CI: ")
+            if not obtener_participante(ci):
+                print("❌ No existe el participante con CI:", ci)
+                break
             nombre = input("Nuevo nombre (Enter para no modificar): ") or None
             apellido = input("Nuevo apellido (Enter para no modificar): ") or None
             email = input("Nuevo email (Enter para no modificar): ") or None
@@ -90,7 +103,56 @@ def menu_participantes():
             break
         else:
             print("Opción inválida.")
-            
+
+# -------------------------- ABM SALAS --------------------------
+
+def menu_salas():
+    while True:
+        print("\n--- ABM Salas ---")
+        print("1. Crear sala")
+        print("2. Obtener sala")
+        print("3. Modificar sala")
+        print("4. Borrar sala")
+        print("0. Volver")
+        opcion = input("Opción: ").strip()
+        
+        
+        if opcion == "1":
+            nombre_sala = input("Nombre de la sala: ")
+            edificio = input("Nombre del edificio: ")
+            if obtener_sala(nombre_sala, edificio):
+                print("❌ Ya existe la sala:", nombre_sala, "del edificio:", edificio)
+                break
+            capacidad = input("Capacidad: ")
+            tipo_sala = input("Tipo de sala: ")
+            crear_sala(nombre_sala, edificio, capacidad, tipo_sala)
+        elif opcion == "2":
+            nombre_sala = input("Nombre de la sala: ")
+            edificio = input("Nombre del edificio: ")
+            resultado = obtener_sala(nombre_sala, edificio)
+            print("📋 Datos:")
+            for clave, valor in resultado.items():
+                print(f"  {clave}: {valor}")
+            if not resultado:
+                print("Sala no encontrada")
+        elif opcion == "3":
+            nombre_sala = input("Nombre de la sala: ")
+            edificio = input("Nombre del edificio: ")
+            if not obtener_sala(nombre_sala, edificio):
+                print("❌ No existe la sala:", nombre_sala, "del edificio:", edificio)
+                break
+            capacidad = input("Nueva capacidad (Enter para no modificar): ") or None
+            tipo_sala = input("Nuevo tipo de sala (Enter para no modificar): ") or None
+            modificar_sala(nombre_sala, edificio, capacidad, tipo_sala)
+        elif opcion == "4":
+            nombre_sala = input("Nombre de la sala: ")
+            edificio = input("Nombre del edificio: ")
+            borrar_sala(nombre_sala, edificio)
+        elif opcion == "0":
+            break
+        else:
+            print("Opción inválida.")
+
             
 def menu_reportes():
     opciones = {
@@ -103,8 +165,6 @@ def menu_reportes():
         "7": ("Sanciones para profesores y alumnos (grado y posgrado)", reportes.sanciones_profes_y_alumnos),
         "8": ("Reservas utilizadas vs cancelada / no asistidas", reportes.reservas_utilizadas_vs_canceladas_na),
         "9": ("top5 de profesores con mas reservas", reportes.profesores_con_mas_reservas)
-
-        
     }
     
     while True:
@@ -131,14 +191,17 @@ def menu_reportes():
 def main():
     while True:
         print("\n=== SISTEMA DE GESTIÓN ===")
-        print("1. Participantes (CRUD)")
-        print("2. Reportes")
+        print("1. Participantes (ABM)")
+        print("2. Salas (ABM)")
+        print("3. Reportes")
         print("0. Salir")
         opcion = input("Opción: ").strip()
 
         if opcion == "1":
             menu_participantes()
-        elif opcion == "2":
+        if opcion == "2":
+            menu_salas()
+        elif opcion == "3":
             menu_reportes()
         elif opcion == "0":
             break

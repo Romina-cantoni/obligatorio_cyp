@@ -26,12 +26,25 @@ obligatorio_cyp/
 └── requirements.txt       
   
 db/ centraliza la conexión a la base de datos.  
-controllers/ contiene la lógica y validaciones.  
+controllers/ contiene la lógica y validaciones.
+- principalmente las operaciones CRUD   
 routes/ define los endpoints HTTP.  
 app.py ejecuta el servidor.  
 .env --> ACA VAN LAS CREDENCIALESS  
   
+------------------------ COMO CREAR LA BASE DE DATOS ------------------------  
+
+En el doc a continuación se podrá ver la creación de tablas y las inserciones mínimas para la base de datos.
+
+PASO IMPORTANTE:
+
+CREATE DATABASE IF NOT EXISTS Gestion_Salas_UCU;
+USE Gestion_Salas_UCU;
+
+https://docs.google.com/document/d/1uZsGdnZJ-oZtIWSjVWLlQIzFK8s3bMD0BKRyKQusuO4/edit?usp=sharing
   
+A CONTINUACIÓN las credenciales necesarias para la conexión.
+
 ------------------------ .env FUNCIONALIDAD ------------------------  
   
 Necesitamos la conexión con MySQL pero queríamos que los datos queden ocultos.  
@@ -54,3 +67,6 @@ Ultimas modificaciones 31/10/2025:
 - creacion de consultas en SQL (falta transferir para python en el archivo reportres_Ctrl, ya hay un ejemplo de como hacerlo)  
 - Main y funcionalidad con consola sobre CRUD de usuarios, practicamente abm (ver si cambia en algo).  
 - Implementacion de un menu, creo que va a ser mas facil pasarlo a interfaz grafica si llegamos :).  
+
+
+

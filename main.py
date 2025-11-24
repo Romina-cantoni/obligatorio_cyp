@@ -49,6 +49,13 @@ from controllers.salas_ctrl import (
     modificar_sala,
     borrar_sala
 )
+
+from controllers.login_ctrl import (
+    obtener_login,
+    existe_login,
+    crear_login
+)
+
 # ----------------------------------------------------------
 #                       Importar reportes
 # ----------------------------------------------------------
@@ -57,6 +64,7 @@ from controllers import reportes_ctrl as reportes
 # -------------------------------------------------------------
 #                       CREACION DE MENUS 
 # -------------------------------------------------------------
+
 # --------------------- ABM PARTICIPANTES ---------------------
 
 def menu_participantes():
@@ -153,7 +161,47 @@ def menu_salas():
         else:
             print("Opción inválida.")
 
-            
+# -------------------------- Login (?) --------------------------
+
+def menu_login():
+    while True:
+        print("Inicie sesión o registrese para ingresar al sistema.")
+        print("1. Iniciar sesión")
+        print("2. Registrarse")
+        opcion = input("Opción: ").strip()
+        while opcion == "1":
+            print("=== Iniciar sesión ===")
+            correo = input("Correo: ")
+            contraseña = input("Contraseña: ")
+            resultado = obtener_login(correo, contraseña)
+            if resultado is None or resultado["contraseña"] != contraseña:
+                print("❌ Correo o contaseña incorrectos.")
+                print("1. Desea intentar de nuevo")
+                print("2. Desea registrarse")
+                opcion = input("Opción: ").strip()
+            else:
+                print(f"✅ Bienvenido, {correo}!")
+                return resultado["ci_participante"]
+        while opcion == "2":
+            print("=== Registrarse ===")
+            correo = input("Correo: ")
+            resultado = existe_login(correo)
+            if resultado:
+                print("❌ El correo ya está registrado.")
+                print("1. Desea intentar de nuevo")
+                print("2. Desea iniciar sesión")
+                opcion = input("Opción: ").strip()
+            else:   
+                contraseña = input("Contraseña: ")
+                ci = input("CI: ")
+                crear_login(correo, contraseña, ci)
+                print("✅ Registro exitoso. Ahora puede iniciar sesión.")
+                opcion = "1"
+        else:
+            print("Opción inválida.")
+
+# -------------------------- Menu reportes --------------------------
+
 def menu_reportes():
     opciones = {
         "1": ("Salas más reservadas", reportes.salas_mas_reservadas),
@@ -194,6 +242,7 @@ def main():
         print("1. Participantes (ABM)")
         print("2. Salas (ABM)")
         print("3. Reportes")
+        print("4. Login")
         print("0. Salir")
         opcion = input("Opción: ").strip()
 
@@ -201,8 +250,10 @@ def main():
             menu_participantes()
         if opcion == "2":
             menu_salas()
-        elif opcion == "3":
+        if opcion == "3":
             menu_reportes()
+        if opcion == "4":
+            menu_login()
         elif opcion == "0":
             break
         else:
